@@ -23,19 +23,66 @@
       <div class="ml-auto d-flex align-items-center">
 
         <!-- is user is admin -->
-        <router-link to="#" class="text-white mr-3">管理員後台</router-link>
+        <router-link
+          v-if="currentUser.isAdmin"
+          to="#"
+          class="text-white mr-3"
+        >
+          管理員後台
+        </router-link>
 
         <!-- is user is login -->
-          <router-link to="#" class="text-white mr-3">使用者 您好</router-link>
+        <template v-if="isAuthenticated">
+          <router-link
+            to="#" 
+            class="text-white mr-3"
+          >
+            {{ currentUser.name || '使用者' }} 您好
+          </router-link>
           <button type="button" class="btn btn-sm btn-outline-success my-2 my-sm-0">登出</button>
-
+        </template>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: 'administrator',
+    email: 'root@example.com',
+    image: 'http://i.pravatar.cc/300',
+    isAdmin: true
+  },
+  isAuthenticated: true
+}
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data () {
+    return {
+      currentUser: {
+        id: -1,
+        name: '',
+        email: '',
+        image: '',
+        isAdmin: false
+      },
+      isAuthenticated: false
+    }
+  },
+  created() {
+    this.fetchUser()
+  },
+  methods: {
+    fetchUser () {
+      this.currentUser = {
+        ...this.currentUser,
+        ...dummyUser.currentUser
+      },
+      this.isAuthenticated = dummyUser.isAuthenticated
+    }
+  }
 }
 </script>
