@@ -1,6 +1,6 @@
 <template>
    <div class="container py-5">
-    <form class="w-100">
+    <form class="w-100" @submit.prevent="handleSubmit">
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">
           Sign In
@@ -11,6 +11,7 @@
         <label for="email">Email</label>
         <input
           id="email"
+          v-model="email"
           name="email"
           type="email"
           class="form-control"
@@ -24,6 +25,7 @@
         <label for="password">Password</label>
         <input
           id="password"
+          v-model="password"
           name="password"
           type="password"
           class="form-control"
@@ -41,7 +43,7 @@
 
       <div class="text-center mb-3">
         <p>
-          <a href="/signup">Sign Up</a>
+          <router-link to="/signup">Sign Up</router-link>
         </p>
       </div>
 
@@ -54,6 +56,22 @@
 
 <script>
 export default {
-  name: 'SignIn'
+  name: 'SignIn',
+  data () {
+    return {
+      email: '',
+      password: '',
+    }
+  },
+  methods: {
+    handleSubmit (e) {
+      const data = JSON.stringify({
+        email: this.email,
+        password: this.password
+      })
+
+      console.log('data', data)
+    }
+  }
 }
 </script>
