@@ -12,6 +12,11 @@
       />
     </div>
     <!-- Pagination -->
+    <RestaurantsPagination
+      :category-id="categoryId"
+      :current-page="currentPage"
+      :total-page="totalPage"
+    />
   </div>
 </template>
 
@@ -19,6 +24,7 @@
 import NavTabs from '../components/NavTabs.vue'
 import RestaurantsCard from '../components/RestaurantCard.vue'
 import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
+import RestaurantsPagination from '../components/RestaurantsPagination.vue'
 
 const dummyData = {
   "restaurants": [
@@ -229,7 +235,7 @@ const dummyData = {
           "updatedAt": "2020-01-20T12:30:43.772Z"
       }
   ],
-  "categoryId": "",
+  "categoryId": 0,
   "page": 1,
   "totalPage": [
       1,
@@ -256,7 +262,8 @@ export default {
   components: {
     NavTabs,
     RestaurantsCard,
-    RestaurantsNavPills
+    RestaurantsNavPills,
+    RestaurantsPagination
   },
   created () {
     this.fetchRestaurants()
