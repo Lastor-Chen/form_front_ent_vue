@@ -56,11 +56,8 @@ export default {
   },
   mixins: [fromNowFilter],
   methods: {
-    deleteComment (id) {
-      const index = this.restaurantComments.findIndex(v => {
-        return v.id === id
-      })
-      this.restaurantComments.splice(index, 1)
+    deleteComment (commentId) {
+      this.$emit('after-delete-comment', commentId)
     }
   }
 }

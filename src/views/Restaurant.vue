@@ -4,7 +4,10 @@
     <RestaurantDetail :initial-restaurant="restaurant"/>
     <hr>
     <!-- 餐廳評論 RestaurantComments -->
-    <RestaurantComments :restaurant-comments="restaurantComments"/>
+    <RestaurantComments 
+      :restaurant-comments="restaurantComments"
+      @after-delete-comment="afterDeleteComment"
+    />
     <!-- 新增評論 CreateComment -->
   </div>
 </template>
@@ -166,6 +169,12 @@ export default {
       }
 
       this.restaurantComments = dummyData.restaurant.Comments
+    },
+    afterDeleteComment (commentId) {
+      const index = this.restaurantComments.findIndex(
+        item => item.id === commentId
+      )
+      this.restaurantComments.splice(index, 1)
     }
   }
 }
