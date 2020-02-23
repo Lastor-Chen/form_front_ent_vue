@@ -29,6 +29,7 @@
 
 <script>
 import moment from 'moment'
+import { fromNowFilter } from '../utils/mixins.js'
 
 const dummyUser = {
   currentUser: {
@@ -53,12 +54,7 @@ export default {
       currentUser: dummyUser.currentUser
     }
   },
-  filters: {
-    fromNow (datetime) {
-      if (!datetime) return '-'
-      return moment(datetime).fromNow()
-    }
-  },
+  mixins: [fromNowFilter],
   methods: {
     deleteComment (id) {
       const index = this.restaurantComments.findIndex(v => {
