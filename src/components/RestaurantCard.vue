@@ -1,16 +1,25 @@
 <template>
   <div class="col-md-6 col-lg-4">
     <div class="card mb-4">
-      <img
-        class="card-img-top"
-        :src="restaurant.image"
-        alt="Card image cap"
-        width="286px"
-        height="180px"
+      <router-link
+        :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+        class="link-img"
       >
+        <img
+          class="card-img-top"
+          :src="restaurant.image"
+          alt="Card image cap"
+          width="286px"
+          height="180px"
+        >
+      </router-link>
       <div class="card-body">
         <p class="card-text title-wrap">
-          <a href="#">{{restaurant.name}}</a>
+          <router-link
+            :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+          >
+            {{restaurant.name}}
+          </router-link>
         </p>
         <span class="badge badge-secondary">
           {{restaurant.Category && restaurant.Category.name}}
@@ -56,6 +65,13 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.link-img {
+  width: 100%;
+  height: 180px
+}
+</style>
 
 <script>
 export default {
