@@ -2,6 +2,7 @@
   <div class="container py-5">
     <NavTabs/>
     <!-- Pills -->
+    <RestaurantsNavPills :categories="categories" />
     <div class="row">
       <!-- Card -->
       <RestaurantsCard 
@@ -17,6 +18,7 @@
 <script>
 import NavTabs from '../components/NavTabs.vue'
 import RestaurantsCard from '../components/RestaurantCard.vue'
+import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
 
 const dummyData = {
   "restaurants": [
@@ -253,7 +255,8 @@ export default {
   },
   components: {
     NavTabs,
-    RestaurantsCard
+    RestaurantsCard,
+    RestaurantsNavPills
   },
   created () {
     this.fetchRestaurants()
