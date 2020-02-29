@@ -13,7 +13,7 @@
           </router-link>
         </h4>
         <p>{{comment.text}}</p>by
-        <a href="#">{{comment.User && comment.User.name}}</a>
+        <router-link :to="`/users/${comment.User.id}`">{{comment.User && comment.User.name}}</router-link>
         {{comment.createdAt | fromNow}}
         <hr>
       </div>
