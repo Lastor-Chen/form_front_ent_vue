@@ -122,17 +122,23 @@ const dummyData = {
 }
 
 export default {
-  data() {
-    return {
-      restaurant: {
+  props: {
+    initialRestaurant: {
+      type: Object,
+      default: () => ({
         name: '',
         categoryId: 0,
         tel: '',
         address: '',
         description: '',
         image: '',
-        openingHours: ''
-      },
+        openingHours: '',
+      })
+    }
+  },
+  data() {
+    return {
+      restaurant: { ...this.initialRestaurant },
       categories: []
     }
   },
