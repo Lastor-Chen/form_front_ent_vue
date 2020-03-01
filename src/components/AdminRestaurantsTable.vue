@@ -17,14 +17,20 @@
         <td class="align-middle">{{restaurant.Category && restaurant.Category.name}}</td>
         <td class="align-middle">{{restaurant.name}}</td>
         <td class="d-flex justify-content-between">
-          <router-link :to="`/admin/restaurants/${restaurant.id}`" class="btn btn-link">
+          <router-link class="btn btn-link"
+            :to="`/admin/restaurants/${restaurant.id}`"
+            >
             Show
           </router-link>
-          <button href="#" class="btn btn-link">Edit</button>
+          <router-link class="btn btn-link"
+            :to="`/admin/restaurants/${restaurant.id}/edit`"
+            >
+            Edit
+          </router-link>
           <button href="#"
             class="btn btn-link"
             @click="deleteRestaurant(restaurant.id)"
-          >
+            >
             Delete
           </button>
         </td>

@@ -2,7 +2,11 @@
   <div class="container py-5">
     <!-- AdminNav -->
     <AdminNav/>
-    <a href="#" class="btn btn-primary mb-4">New Restaurant</a>
+    <router-link class="btn btn-primary mb-4"
+      to="/admin/restaurants/new"
+    >
+      New Restaurant
+    </router-link>
     <!-- AdminRestaurantsTable -->
     <AdminRestaurantsTable/>
   </div>
