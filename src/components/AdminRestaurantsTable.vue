@@ -20,8 +20,13 @@
           <router-link :to="`/admin/restaurants/${restaurant.id}`" class="btn btn-link">
             Show
           </router-link>
-            <a href="#" class="btn btn-link">Edit</a>
-          <a href="#" class="btn btn-link">Delete</a>
+          <button href="#" class="btn btn-link">Edit</button>
+          <button href="#"
+            class="btn btn-link"
+            @click="deleteRestaurant(restaurant.id)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
@@ -1015,6 +1020,11 @@ export default {
   methods: {
     fetchRestaurants() {
       this.restaurants = dummyData.restaurants
+    },
+    deleteRestaurant(restaurantId) {
+      this.restaurants = this.restaurants.filter(
+        rest => rest.id !== restaurantId
+      )
     }
   }
 }
