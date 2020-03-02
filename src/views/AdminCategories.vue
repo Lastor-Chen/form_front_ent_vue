@@ -26,17 +26,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="cate in categories"
+        <tr v-for="(cate, index) in categories"
           :key="cate.id"
         >
           <th scope="row">{{cate.id}}</th>
           <td class="position-relative">
-            <div class="category-name">
+            <div class="category-name"
+              v-show="!cate.isEditing"
+              >
               {{cate.name}}
             </div>
+
+            <input type="text"
+              class="form-control"
+              v-show="cate.isEditing"
+              v-model="cate.name"
+            >
+            <span class="cancel"
+              v-show="cate.isEditing"
+              @click="handleCancel(index)"
+              >
+              ✕
+            </span>
           </td>
           <td class="d-flex justify-content-between">
-            <button class="btn btn-link mr-2">Edit</button>
+            <button class="btn btn-link mr-2"
+              v-show="!cate.isEditing"
+              @click="toggleIsEditing(index)"
+              >
+              Edit
+            </button>
+            <button class="btn btn-link mr-2"
+              v-show="cate.isEditing"
+              @click="updateCategory(index)"
+              >
+              Save
+            </button>
+
             <button class="btn btn-link mr-2"
                 @click="deleteCategory(cate.id)"
               >
@@ -97,7 +123,10 @@ export default {
   },
   methods: {
     fetchCategories() {
-      this.categories = dummyData.categories
+      this.categories = dummyData.categories.map(cate => ({
+        ...cate,
+        isEditing: false
+      }))
     },
     createCategory() {
       this.categories.push({
@@ -111,7 +140,53 @@ export default {
       this.categories = this.categories.filter(
         cate => cate.id !== cateId
       )
+    },
+    toggleIsEditing(index) {
+      const category = this.categories[index]
+      category.isEditing = !category.isEditing
+      category.nameCached = category.name
+    },
+    updateCategory(index) {
+      // API request
+
+      // toggle status
+      this.toggleIsEditing(index)
+    },
+    handleCancel(index) {
+      const category = this.categories[index]
+      category.name = category.nameCached
+      this.toggleIsEditing(index)
     }
   }
 }
 </script>
+
+<style scoped>
+.category-name {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid transparent;
+  outline: 0;
+  cursor: auto;
+}
+
+.btn-link {
+  width: 62px;
+}
+
+.cancel {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #aaaaaa;
+  border-radius: 50%;
+  user-select: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+</style>
