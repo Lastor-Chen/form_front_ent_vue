@@ -55,6 +55,9 @@
 </template>
 
 <script>
+import authorizationAPI  from '../apis/authorization.js'
+import { Toast } from '../utils/helpers.js'
+
 export default {
   name: 'SignIn',
   data () {
@@ -64,13 +67,30 @@ export default {
     }
   },
   methods: {
-    handleSubmit (e) {
-      const data = JSON.stringify({
-        email: this.email,
-        password: this.password
-      })
+    async handleSubmit (e) {
+      try {
+        if (!this.email || !this.password) {
+          throw { badRequest: '請輸入 Email 與 Password' }
+        }
 
-      console.log('data', data)
+        const { data } = await authorizationAPI.signIn({
+          email: this.email,
+          password: this.password
+        })
+
+        localStorage.setItem('token', data.token)
+        this.$router.push('/restaurants')
+
+      } catch(err) {
+        let msg = err.badRequest || 'Email 或 Password 錯誤'
+
+        if (!err.badRequest) { this.password = '' }
+        
+        Toast.fire({
+          icon: 'warning',
+          title: msg
+        })
+      }
     }
   }
 }
