@@ -37,6 +37,7 @@
       <button
         class="btn btn-lg btn-primary btn-block mb-3"
         type="submit"
+        :disabled="isProcessing"
       >
         Submit
       </button>
@@ -64,6 +65,7 @@ export default {
     return {
       email: '',
       password: '',
+      isProcessing: false
     }
   },
   methods: {
@@ -73,6 +75,7 @@ export default {
           throw { badRequest: '請輸入 Email 與 Password' }
         }
 
+        this.isProcessing = true
         const { data } = await authorizationAPI.signIn({
           email: this.email,
           password: this.password
@@ -82,10 +85,15 @@ export default {
         this.$router.push('/restaurants')
 
       } catch(err) {
-        let msg = err.badRequest || 'Email 或 Password 錯誤'
+        this.isProcessing = false
+        let msg = err.badRequest || err.message
 
-        if (!err.badRequest) { this.password = '' }
-        
+        // axios 拋的 error 才會帶 response 屬性
+        if (err.response && (err.response.status === 401)) {
+          msg = 'Email 或 Password 錯誤'
+          this.password = ''
+        }
+
         Toast.fire({
           icon: 'warning',
           title: msg
