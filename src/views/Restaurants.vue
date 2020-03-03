@@ -25,7 +25,7 @@ import NavTabs from '../components/NavTabs.vue'
 import RestaurantsCard from '../components/RestaurantCard.vue'
 import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
 import RestaurantsPagination from '../components/RestaurantsPagination.vue'
-import restaurantAPI from '../apis/restaurants'
+import restaurantsAPI from '../apis/restaurants'
 import { Toast } from '../utils/helpers'
 
 export default {
@@ -45,18 +45,25 @@ export default {
     RestaurantsPagination
   },
   created () {
-    this.fetchRestaurants({ page: 1, categoryId: '' })
+    const { page, categoryId } = this.$route.query
+    this.fetchRestaurants({ page, categoryId })
+  },
+  beforeRouteUpdate(to, from, next) {
+    const { page, categoryId } = to.query
+    this.fetchRestaurants({ page, categoryId })
+    next()
   },
   methods: {
-    async fetchRestaurants({ page, categoryId }) {
+    async fetchRestaurants({ page = 1, categoryId = '' }) {
       try {
-        const { data } = await restaurantAPI.getRestaurants({ page, categoryId })
+        const { data } = await restaurantsAPI.getRestaurants({ page, categoryId })
 
         this.restaurants = data.restaurants
         this.categories = data.categories
         this.categoryId = data.categoryId
         this.currentPage = data.page
         this.totalPage = data.totalPage.length
+
       } catch(err) {
         Toast.fire({
           icon: 'error',
