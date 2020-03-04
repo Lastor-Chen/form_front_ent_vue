@@ -8,7 +8,7 @@
       <RestaurantsCard 
         v-for="restaurant in restaurants"
         :key="restaurant.id"
-        :initial-restaurant="restaurant"
+        :restaurant="restaurant"
       />
     </div>
     <!-- Pagination -->

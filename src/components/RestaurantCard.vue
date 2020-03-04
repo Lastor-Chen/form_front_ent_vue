@@ -79,14 +79,9 @@ import { Toast } from '../utils/helpers.js'
 
 export default {
   props: {
-    initialRestaurant: {
+    restaurant: {
       type: Object,
       required: true
-    }
-  },
-  data () {
-    return {
-      restaurant: this.initialRestaurant
     }
   },
   methods: {
@@ -95,10 +90,8 @@ export default {
         const { data } = await usersAPI.addFavorite(restaurantId)
         if (data.status !== 'success') throw 'serverError'
 
-        this.restaurant = {
-          ...this.restaurant,
-          isFavorited: true
-        }
+        this.restaurant.isFavorited = true
+
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -111,10 +104,8 @@ export default {
         const { data } = await usersAPI.deleteFavorite(restaurantId)
         if (data.status !== 'success') throw 'serverError'
 
-        this.restaurant = {
-          ...this.restaurant,
-          isFavorited: false
-        }
+        this.restaurant.isFavorited = false
+
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -127,10 +118,8 @@ export default {
         const { data } = await usersAPI.addLike(restaurantId)
         if (data.status !== 'success') throw 'serverError'
 
-        this.restaurant = {
-          ...this.restaurant,
-          isLiked: true
-        }
+        this.restaurant.isLiked = true
+
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -143,10 +132,8 @@ export default {
         const { data } = await usersAPI.deleteLike(restaurantId)
         if (data.status !== 'success') throw 'serverError'
 
-        this.restaurant = {
-          ...this.restaurant,
-          isLiked: false
-        }
+        this.restaurant.isLiked = false
+
       } catch(err) {
         Toast.fire({
           icon: 'error',
