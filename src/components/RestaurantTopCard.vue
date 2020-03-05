@@ -29,7 +29,7 @@
             v-if="restaurant.isFavorited"
             type="button"
             class="btn btn-danger mr-2"
-            @click="toggleFavorite"
+            @click="deleteFavorite(restaurant.id)"
           >
             移除最愛
           </button>
@@ -37,7 +37,7 @@
             v-else
             type="button"
             class="btn btn-primary"
-            @click="toggleFavorite"
+            @click="addFavorite(restaurant.id)"
           >
             加到最愛
           </button>
@@ -55,6 +55,9 @@
 </style>
 
 <script>
+import usersAPI from '../apis/users.js'
+import { Toast } from '../utils/helpers.js'
+
 export default {
   props: {
     initialRestaurant: {
@@ -68,11 +71,40 @@ export default {
     }
   },
   methods: {
-    toggleFavorite () {
-      // 打 API
-      // 傳遞父層
-      this.$emit('afterToggleFavorite', this.restaurant.id)
-    }
+    async addFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.addFavorite(restaurantId)
+        if (data.status !== 'success') throw 'serverError'
+
+        this.restaurant = {
+          ...this.restaurant,
+          isFavorited: true
+        }
+
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入最愛，請稍後再試'
+        })
+      }
+    },
+    async deleteFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.deleteFavorite(restaurantId)
+        if (data.status !== 'success') throw 'serverError'
+
+        this.restaurant = {
+          ...this.restaurant,
+          isFavorited: false
+        }
+
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消最愛，請稍後再試'
+        })
+      }
+    },
   }
 }
 </script>
