@@ -46,7 +46,8 @@ import { Toast } from '../utils/helpers.js'
 export default {
   data() {
     return {
-      restaurants: []
+      restaurants: [],
+      isProcessing: false
     }
   },
   created() {
@@ -66,10 +67,31 @@ export default {
         })
       }
     },
-    deleteRestaurant(restaurantId) {
-      this.restaurants = this.restaurants.filter(
-        rest => rest.id !== restaurantId
-      )
+    async deleteRestaurant(restaurantId) {
+      try {
+        if (this.isProcessing) return false
+
+        // API request
+        this.isProcessing = true
+        const { data } = await adminAPI.restaurants.delete(restaurantId)
+        if (data.status !== 'success') throw 'serverError'
+
+        // change Vue data
+        this.restaurants = this.restaurants.filter(
+          rest => rest.id !== restaurantId
+        )
+        this.isProcessing = false
+
+        // sent msg to client
+        Toast.fire('刪除成功', '', 'success')
+
+      } catch(err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: '無法刪除餐廳，請稍後再試'
+        })
+      }
     }
   }
 }

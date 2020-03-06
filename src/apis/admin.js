@@ -20,6 +20,9 @@ export default {
     },
     create(formData) {
       return apiHelper.post('admin/restaurants', formData, config)
+    },
+    delete(restaurantId) {
+      return apiHelper.delete(`admin/restaurants/${restaurantId}`, config)
     }
   }
 }
