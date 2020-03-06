@@ -15,6 +15,9 @@ export default {
     }
   },
   restaurants: {
+    get() {
+      return apiHelper.get('admin/restaurants', config)
+    },
     create(formData) {
       return apiHelper.post('admin/restaurants', formData, config)
     }
