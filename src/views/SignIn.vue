@@ -68,6 +68,12 @@ export default {
       isProcessing: false
     }
   },
+  created() {
+    const from = this.$route.params.from
+    if (from === 'signUp') {
+      Toast.fire('成功註冊!', '', 'success')
+    }
+  },
   methods: {
     async handleSubmit (e) {
       try {

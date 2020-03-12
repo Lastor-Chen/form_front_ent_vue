@@ -63,6 +63,7 @@
       <button
         class="btn btn-lg btn-primary btn-block mb-3"
         type="submit"
+        :disabled="isProcessing"
       >
         Submit
       </button>
@@ -83,6 +84,9 @@
 </template>
 
 <script>
+import authorizationAPI from '../apis/authorization.js'
+import { Toast } from '../utils/helpers.js'
+
 export default {
   name: 'SignUp',
   data () {
@@ -90,19 +94,39 @@ export default {
       name: '',
       email: '',
       password: '',
-      passwordCheck: ''
+      passwordCheck: '',
+      isProcessing: false
     }
   },
   methods: {
-    handelSubmit (e) {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck
-      })
+    async handelSubmit (e) {
+      try {
+        this.isProcessing = true
 
-      console.log(data)
+        // check required
+        const input = { ...this.$data }
+        delete input.isProcessing
+
+        for (const key in input) {
+          input[key] = input[key].trim()
+          if (!input[key]) throw `請填寫 ${key}`
+        }
+        
+        // check password
+        if (input.password !== input.passwordCheck) throw 'password check 不一致'
+
+        const { data } = await authorizationAPI.signUp(input)
+        if (data.status !== 'success') throw data.message
+
+        this.$router.push({ name: 'sign-in', params: { from: 'signUp' } })
+
+      } catch(err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err
+        })
+      }
     }
   }
 }
