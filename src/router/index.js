@@ -109,8 +109,16 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  await store.dispatch('fetchCurrentUser')
-  next()
+  try {
+    const hasToken = localStorage.getItem('token')
+    if (!hasToken) return next()
+
+    await store.dispatch('fetchCurrentUser')
+    next()
+
+  } catch(err) {
+    console.log(err)
+  }
 })
 
 export default router
