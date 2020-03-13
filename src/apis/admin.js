@@ -12,6 +12,15 @@ export default {
   categories: {
     get() {
       return apiHelper.get('/admin/categories', config)
+    },
+    create(data) {
+      return apiHelper.post('/admin/categories', data, config)
+    },
+    delete(id) {
+      return apiHelper.delete(`/admin/categories/${id}`, config)
+    },
+    update(id, data) {
+      return apiHelper.put(`/admin/categories/${id}`, data, config)
     }
   },
   restaurants: {
