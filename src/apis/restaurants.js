@@ -1,22 +1,21 @@
 import { apiHelper } from '../utils/helpers'
 
-function getToken() {
-  return localStorage.getItem('token')
-}
-
-const config = {
-  headers: { Authorization: `Bearer ${getToken()}` }
+function getHeaders() {
+  const token = localStorage.getItem('token')
+  return {
+    headers: { Authorization: `Bearer ${token}` }
+  }
 }
 
 export default {
   getRestaurants({ page, categoryId }) {
     const searchParams = new URLSearchParams({ page, categoryId })
-    return apiHelper.get(`/restaurants?${searchParams.toString()}`, config)
+    return apiHelper.get(`/restaurants?${searchParams.toString()}`, getHeaders())
   },
   getFeeds() {
-    return apiHelper.get('/restaurants/feeds', config)
+    return apiHelper.get('/restaurants/feeds', getHeaders())
   },
   getTopRestaurants() {
-    return apiHelper.get('/restaurants/top', config)
+    return apiHelper.get('/restaurants/top', getHeaders())
   }
 }
