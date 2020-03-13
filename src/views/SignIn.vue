@@ -87,7 +87,10 @@ export default {
           password: this.password
         })
 
+        // 處理 user data
         localStorage.setItem('token', data.token)
+        this.$store.commit('setCurrentUser', data.user)
+
         this.$router.push('/restaurants')
 
       } catch(err) {
