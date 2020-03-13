@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index.js'
 import Restaurants from '../views/Restaurants.vue'
 
 Vue.use(VueRouter)
@@ -105,6 +106,11 @@ const routes = [
 const router = new VueRouter({
   linkExactActiveClass: 'active',
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  await store.dispatch('fetchCurrentUser')
+  next()
 })
 
 export default router

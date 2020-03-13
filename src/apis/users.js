@@ -9,6 +9,12 @@ const config = {
 }
 
 export default {
+  getCurrentUser() {
+    return apiHelper.get('/get_current_user', config)
+  },
+  getOne(userId) {
+    return apiHelper.get(`/users/${userId}`, config)
+  },
   addFavorite(restaurantId) {
     return apiHelper.post(`/favorite/${restaurantId}`, null, config)
   },
@@ -29,5 +35,5 @@ export default {
   },
   deleteFollowing(userId) {
     return apiHelper.delete(`/following/${userId}`, config)
-  }
+  },
 }

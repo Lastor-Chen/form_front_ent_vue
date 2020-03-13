@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import usersAPI from '../apis/users.js'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async fetchCurrentUser() {
+      try {
+        const { data } = await usersAPI.getCurrentUser()
+        this.commit('setCurrentUser', data)
+
+      } catch(err) {
+        console.log(err)
+      }
+    }
   },
   modules: {
   }
