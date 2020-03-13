@@ -80,7 +80,7 @@ export default {
     async handleSubmit (e) {
       try {
         if (!this.email || !this.password) {
-          throw { badRequest: '請輸入 Email 與 Password' }
+          throw { msg: '請輸入 Email 與 Password' }
         }
 
         this.isProcessing = true
@@ -97,17 +97,9 @@ export default {
 
       } catch(err) {
         this.isProcessing = false
-        let msg = err.badRequest || err.message
-
-        // axios 拋的 error 才會帶 response 屬性
-        if (err.response && (err.response.status === 401)) {
-          msg = 'Email 或 Password 錯誤'
-          this.password = ''
-        }
-
         Toast.fire({
           icon: 'warning',
-          title: msg
+          title: err.msg || 'Email 或 Password 錯誤'
         })
       }
     }
