@@ -16,8 +16,9 @@
           type="email"
           class="form-control"
           placeholder="email"
+          autocomplete="email"
           required
-          autofocus
+          v-focus
         >
       </div>
 
@@ -30,6 +31,7 @@
           type="password"
           class="form-control"
           placeholder="Password"
+          autocomplete="current-password"
           required
         >
       </div>
@@ -107,6 +109,13 @@ export default {
           icon: 'warning',
           title: msg
         })
+      }
+    }
+  },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus()
       }
     }
   }
