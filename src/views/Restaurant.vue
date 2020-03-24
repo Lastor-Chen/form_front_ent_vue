@@ -6,6 +6,7 @@
     <!-- 餐廳評論 RestaurantComments -->
     <RestaurantComments 
       :restaurant-comments="restaurantComments"
+      :currentUser="currentUser"
       @after-delete-comment="afterDeleteComment"
     />
     <!-- 新增評論 CreateComment -->

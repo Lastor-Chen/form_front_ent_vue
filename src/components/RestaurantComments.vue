@@ -11,6 +11,7 @@
           type="button"
           class="btn btn-danger float-right"
           @click="deleteComment(comment.id)"
+          :disabled="isProcessing"
         >
           Delete
         </button>
@@ -28,36 +29,47 @@
 </template>
 
 <script>
+import commentsAPI from '../apis/comments.js'
 import moment from 'moment'
 import { fromNowFilter } from '../utils/mixins.js'
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com',
-    image: 'https://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true
-}
+import { Toast } from '../utils/helpers.js'
 
 export default {
   props: {
     restaurantComments: {
       type: Array,
       required: true
+    },
+    currentUser: {
+      type: Object,
+      required: true
     }
   },
-  data () {
+  data() {
     return {
-      currentUser: dummyUser.currentUser
+      isProcessing: false
     }
   },
   mixins: [fromNowFilter],
   methods: {
-    deleteComment (commentId) {
-      this.$emit('after-delete-comment', commentId)
+    async deleteComment (commentId) {
+      try {
+        this.isProcessing = true
+
+        const { data } = await commentsAPI.delete(commentId)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        Toast.fire('成功刪除評論', '', 'success')
+        this.$emit('after-delete-comment', commentId)
+        this.isProcessing = false
+
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法刪除評論，請稍後再試'
+        })
+      }
     }
   }
 }
