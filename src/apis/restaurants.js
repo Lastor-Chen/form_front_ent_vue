@@ -12,6 +12,9 @@ export default {
     const searchParams = new URLSearchParams({ page, categoryId })
     return apiHelper.get(`/restaurants?${searchParams.toString()}`, getHeaders())
   },
+  getRestaurant(id) {
+    return apiHelper.get(`/restaurants/${id}`, getHeaders())
+  },
   getFeeds() {
     return apiHelper.get('/restaurants/feeds', getHeaders())
   },

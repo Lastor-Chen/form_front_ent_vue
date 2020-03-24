@@ -9,7 +9,7 @@
     <div class="col-lg-4">
       <img
         class="img-responsive center-block" 
-        :src="restaurant.image"
+        :src="restaurant.image || 'http://via.placeholder.com/320x240?text=No+Image'"
         style="width: 250px;margin-bottom: 25px;"
       >
       <div class="contact-info-wrap">
@@ -85,6 +85,11 @@ export default {
   data () {
     return {
       restaurant: this.initialRestaurant
+    }
+  },
+  watch: {
+    initialRestaurant(newVal) {
+      this.restaurant = newVal
     }
   },
   methods: {
