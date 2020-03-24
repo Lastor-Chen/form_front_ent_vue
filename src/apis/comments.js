@@ -8,6 +8,9 @@ function getHeaders() {
 }
 
 export default {
+  create(data) {
+    return apiHelper.post('/comments', data, getHeaders())
+  },
   delete(id) {
     return apiHelper.delete(`/comments/${id}`, getHeaders())
   }

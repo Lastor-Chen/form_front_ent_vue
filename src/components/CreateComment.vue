@@ -13,6 +13,7 @@
       <button
         type="submit"
         class="btn btn-primary mr-0"
+        :disabled="isProcessing"
       >
         Submit
       </button>
@@ -21,7 +22,8 @@
 </template>
 
 <script>
-import uuid from 'uuid/v4'
+import commentsAPI from '../apis/comments.js'
+import { Toast } from '../utils/helpers.js'
 
 export default {
   props: {
@@ -32,19 +34,42 @@ export default {
   },
   data () {
     return {
-      text: ''
+      text: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit () {
-      this.$emit('after-create-comment', {
-        commentId: uuid(),
-        restaurantId: this.restaurantId,
-        text: this.text
-      })
+    async handleSubmit () {
+      try {
+        // check user input
+        const text = this.text.trim()
+        if (!text) return Toast.fire('評論不得為空白', '', 'warning')
+        this.isProcessing = true
 
-      // reset textarea
-      this.text = ''
+        // API request
+        const commentData = {
+          restaurantId: this.restaurantId,
+          text
+        }
+        const { data } = await commentsAPI.create(commentData)
+        if (data.status !== 'success') throw { msg: data.message}
+
+        // add new comment to Vue data
+        commentData.commentId = data.commentId
+        this.$emit('after-create-comment', commentData)
+        Toast.fire('成功建立新評論', '', 'success')
+
+        // reset textarea
+        this.text = ''
+        this.isProcessing = false
+
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法新增評論，請稍後再試'
+        })
+      }
     }
   }
 }
