@@ -42,7 +42,8 @@
         v-if="restaurant.isFavorited"
         type="button"
         class="btn btn-danger btn-border mr-2"
-        @click="toggleFavorite"
+        @click="deleteFavorite"
+        :disabled="isProcessing"
       >
         移除最愛
       </button>
@@ -50,7 +51,8 @@
         v-else
         type="button"
         class="btn btn-primary btn-border mr-2"
-        @click="toggleFavorite"
+        @click="addFavorite"
+        :disabled="isProcessing"
       >
         加到最愛
       </button>
@@ -75,6 +77,9 @@
 </template>
 
 <script>
+import usersAPI from '../apis/users.js'
+import { Toast } from '../utils/helpers.js'
+
 export default {
   props: {
     initialRestaurant: {
@@ -84,7 +89,8 @@ export default {
   },
   data () {
     return {
-      restaurant: this.initialRestaurant
+      restaurant: this.initialRestaurant,
+      isProcessing: false
     }
   },
   watch: {
@@ -93,8 +99,53 @@ export default {
     }
   },
   methods: {
-    toggleFavorite() {
-      this.restaurant.isFavorited = !this.restaurant.isFavorited
+    async addFavorite() {
+      try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+
+        const restaurantId = this.restaurant.id
+
+        // API request
+        const { data } = await usersAPI.addFavorite(restaurantId)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        // update Vue data
+        this.restaurant.isFavorited = true
+        Toast.fire('成功加入最愛', '', 'success')
+        this.isProcessing = false
+        
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法加入最愛，請稍後再試'
+        })
+      }
+    },
+    async deleteFavorite() {
+      try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+
+        const restaurantId = this.restaurant.id
+
+        // API request
+        const { data } = await usersAPI.deleteFavorite(restaurantId)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        // update Vue data
+        this.restaurant.isFavorited = false
+        Toast.fire('成功刪除最愛', '', 'success')
+        this.isProcessing = false
+        
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法刪除最愛，請稍後再試'
+        })
+      }
     },
     toggleLike() {
       this.restaurant.isLiked = !this.restaurant.isLiked
