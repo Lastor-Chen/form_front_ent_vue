@@ -60,7 +60,8 @@
         v-if="restaurant.isLiked"
         type="button"
         class="btn btn-danger like mr-2"
-        @click="toggleLike"
+        @click="deleteLike"
+        :disabled="isProcessing"
       >
         Unlike
       </button>
@@ -68,7 +69,8 @@
         v-else
         type="button"
         class="btn btn-primary like mr-2"
-        @click="toggleLike"
+        @click="addLike"
+        :disabled="isProcessing"
       >
         Like
       </button>
@@ -147,9 +149,54 @@ export default {
         })
       }
     },
-    toggleLike() {
-      this.restaurant.isLiked = !this.restaurant.isLiked
-    }
+    async addLike() {
+      try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+
+        const restaurantId = this.restaurant.id
+
+        // API request
+        const { data } = await usersAPI.addLike(restaurantId)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        // update Vue data
+        this.restaurant.isLiked = true
+        Toast.fire('成功加入喜歡', '', 'success')
+        this.isProcessing = false
+        
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法加入喜歡，請稍後再試'
+        })
+      }
+    },
+    async deleteLike() {
+      try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+
+        const restaurantId = this.restaurant.id
+
+        // API request
+        const { data } = await usersAPI.deleteLike(restaurantId)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        // update Vue data
+        this.restaurant.isLiked = false
+        Toast.fire('成功刪除喜歡', '', 'success')
+        this.isProcessing = false
+        
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法刪除喜歡，請稍後再試'
+        })
+      }
+    },
   }
 }
 </script>
