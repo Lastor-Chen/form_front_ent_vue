@@ -21,78 +21,8 @@
 </template>
 
 <script>
-const dummyData = {
-  "restaurant": {
-    "id": 1,
-    "name": "123",
-    "tel": "02-8888-0000",
-    "address": "01313 ketlch deive",
-    "opening_hours": "08:00",
-    "description": "dsfsafdsadfasasdfasdf",
-    "image": "https://loremflickr.com/320/240/restaurant,food/?random=22.148585495422335",
-    "viewCounts": 18,
-    "createdAt": "2019-11-20T06:25:42.921Z",
-    "updatedAt": "2020-02-23T13:14:08.108Z",
-    "CategoryId": null,
-    "Category": null,
-    "Comments": [
-        {
-            "id": 1,
-            "text": "Voluptas omnis laudantium et non ut quia unde.",
-            "UserId": 2,
-            "RestaurantId": 1,
-            "createdAt": "2019-11-20T06:25:42.942Z",
-            "updatedAt": "2019-11-20T06:25:42.942Z",
-            "User": {
-                "id": 2,
-                "name": "user1",
-                "email": "user1@example.com",
-                "password": "$2a$10$ESv6iQjQ8oEe3/XGjw00PuSh1kjmG6Dkhd4YXa50boTlncJDxljAy",
-                "isAdmin": false,
-                "image": null,
-                "createdAt": "2019-11-20T06:25:42.685Z",
-                "updatedAt": "2019-11-21T09:55:30.970Z"
-            }
-        },
-        {
-            "id": 51,
-            "text": "Distinctio laborum explicabo quasi.",
-            "UserId": 2,
-            "RestaurantId": 1,
-            "createdAt": "2019-11-20T06:25:42.944Z",
-            "updatedAt": "2019-11-20T06:25:42.944Z",
-            "User": {
-                "id": 2,
-                "name": "user1",
-                "email": "user1@example.com",
-                "password": "$2a$10$ESv6iQjQ8oEe3/XGjw00PuSh1kjmG6Dkhd4YXa50boTlncJDxljAy",
-                "isAdmin": false,
-                "image": null,
-                "createdAt": "2019-11-20T06:25:42.685Z",
-                "updatedAt": "2019-11-21T09:55:30.970Z"
-            }
-        },
-        {
-            "id": 101,
-            "text": "Nihil iure quas.",
-            "UserId": 2,
-            "RestaurantId": 1,
-            "createdAt": "2019-11-20T06:25:42.946Z",
-            "updatedAt": "2019-11-20T06:25:42.946Z",
-            "User": {
-                "id": 2,
-                "name": "user1",
-                "email": "user1@example.com",
-                "password": "$2a$10$ESv6iQjQ8oEe3/XGjw00PuSh1kjmG6Dkhd4YXa50boTlncJDxljAy",
-                "isAdmin": false,
-                "image": null,
-                "createdAt": "2019-11-20T06:25:42.685Z",
-                "updatedAt": "2019-11-21T09:55:30.970Z"
-            }
-        }
-    ]
-  }
-}
+import restaurantsAPI from '../apis/restaurants.js'
+import { Toast } from '../utils/helpers.js'
 
 export default {
   data () {
@@ -108,17 +38,33 @@ export default {
     }
   },
   created () {
-    this.fetchDashboard()
+    const restaurantId = this.$route.params.id
+    this.fetchDashboard(restaurantId)
+  },
+  beforeRouteUpdate(to, from, next) {
+    const restaurantId = to.params.id
+    this.fetchDashboard(restaurantId)
+    next()
   },
   methods: {
-    fetchDashboard () {
-      this.restaurant = {
-        id: dummyData.restaurant.id,
-        name: dummyData.restaurant.name,
-        categoryName: dummyData.restaurant.Category && dummyData.restaurant.Category.name,
-        commentCounts: dummyData.restaurant.Comments.length,
-        viewCounts: dummyData.restaurant.viewCounts,
-        favoriteCounts: null
+    async fetchDashboard (restaurantId) {
+      try {
+        const { data } = await restaurantsAPI.getRestaurant(restaurantId)
+ 
+        this.restaurant = {
+          id: data.restaurant.id,
+          name: data.restaurant.name,
+          categoryName: data.restaurant.Category && data.restaurant.Category.name,
+          commentCounts: data.restaurant.Comments.length,
+          viewCounts: data.restaurant.viewCounts,
+          favoriteCounts: data.restaurant.FavoritedUsers.length
+        }
+
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
       }
     }
   }
