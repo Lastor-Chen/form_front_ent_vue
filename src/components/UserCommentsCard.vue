@@ -9,7 +9,12 @@
       :key="comment.id"
       :to="`/restaurants/${comment.Restaurant.id}`"
     >
-      <img :src="comment.Restaurant.image" class="avatar" width="60" height="60">
+      <img
+        :src="comment.Restaurant.image || 'http://via.placeholder.com/60?text=Image'"
+        class="avatar"
+        width="60"
+        height="60"
+      >
     </router-link>
   </div>
 </div>

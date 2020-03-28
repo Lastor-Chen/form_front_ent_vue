@@ -9,7 +9,12 @@
         :key="user.id"
         :to="`/users/${user.id}`"
       >
-        <img :src="user.image" width="60" height="60" class="avatar">
+        <img
+          :src="user.image || 'http://via.placeholder.com/60?text=Image'"
+          width="60"
+          height="60"
+          class="avatar"
+        >
       </router-link>
     </div>
   </div>
