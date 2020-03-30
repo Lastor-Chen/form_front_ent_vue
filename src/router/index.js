@@ -127,17 +127,18 @@ router.beforeEach(async (to, from, next) => {
     const storedToken = store.state.token
     let isAuthenticated = store.state.isAuthenticated
 
-    // Vuex 未存到 token && 與 localToken 不一致時
+    // Vuex 未持有 token && 與 localToken 不一致時，才向 Server 核對
     if (storedToken && (storedToken !== localToken)) {
       isAuthenticated = await store.dispatch('fetchCurrentUser')
     }
 
-    const pathsWithoutAuth = ['/signup']
-    if (pathsWithoutAuth.includes(to.path)) return next()
+    // 不需驗證的 routes
+    const openPaths = ['/signin', '/signup']
+    const isOpenPaths = openPaths.includes(to.path)
 
-    // 判斷 to 是否為 signin，避免無限 loop
-    if (!isAuthenticated && to.path !== '/signin' ) return next('/signin')
-    if (isAuthenticated && to.path === '/signin') return next('/restaurants')
+    // 登入註冊頁之跳轉動線，openPaths 防無限 loop
+    if (!isAuthenticated && !isOpenPaths) return next('/signin')
+    if (isAuthenticated && isOpenPaths) return next('/restaurants')
 
     next()
 
