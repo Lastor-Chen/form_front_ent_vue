@@ -1,38 +1,31 @@
 import { apiHelper } from '../utils/helpers.js'
 
-function getHeaders() {
-  const token = localStorage.getItem('token')
-  return {
-    headers: { Authorization: `Bearer ${token}` }
-  }
-}
-
 export default {
   getCurrentUser() {
-    return apiHelper.get('/get_current_user', getHeaders())
+    return apiHelper.get('/get_current_user')
   },
   getOne(userId) {
-    return apiHelper.get(`/users/${userId}`, getHeaders())
+    return apiHelper.get(`/users/${userId}`)
   },
   addFavorite(restaurantId) {
-    return apiHelper.post(`/favorite/${restaurantId}`, null, getHeaders())
+    return apiHelper.post(`/favorite/${restaurantId}`, null)
   },
   deleteFavorite(restaurantId) {
-    return apiHelper.delete(`/favorite/${restaurantId}`, getHeaders())
+    return apiHelper.delete(`/favorite/${restaurantId}`)
   },
   addLike(restaurantId) {
-    return apiHelper.post(`/like/${restaurantId}`, null, getHeaders())
+    return apiHelper.post(`/like/${restaurantId}`, null)
   },
   deleteLike(restaurantId) {
-    return apiHelper.delete(`/like/${restaurantId}`, getHeaders()) 
+    return apiHelper.delete(`/like/${restaurantId}`) 
   },
   getTopUsers() {
-    return apiHelper.get(`/users/top`, getHeaders())
+    return apiHelper.get(`/users/top`)
   },
   addFollowing(userId) {
-    return apiHelper.post(`/following/${userId}`, null, getHeaders())
+    return apiHelper.post(`/following/${userId}`, null)
   },
   deleteFollowing(userId) {
-    return apiHelper.delete(`/following/${userId}`, getHeaders())
+    return apiHelper.delete(`/following/${userId}`)
   },
 }

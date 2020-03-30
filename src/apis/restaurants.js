@@ -1,24 +1,17 @@
 import { apiHelper } from '../utils/helpers'
 
-function getHeaders() {
-  const token = localStorage.getItem('token')
-  return {
-    headers: { Authorization: `Bearer ${token}` }
-  }
-}
-
 export default {
   getRestaurants({ page, categoryId }) {
     const searchParams = new URLSearchParams({ page, categoryId })
-    return apiHelper.get(`/restaurants?${searchParams.toString()}`, getHeaders())
+    return apiHelper.get(`/restaurants?${searchParams.toString()}`)
   },
   getRestaurant(id) {
-    return apiHelper.get(`/restaurants/${id}`, getHeaders())
+    return apiHelper.get(`/restaurants/${id}`)
   },
   getFeeds() {
-    return apiHelper.get('/restaurants/feeds', getHeaders())
+    return apiHelper.get('/restaurants/feeds')
   },
   getTopRestaurants() {
-    return apiHelper.get('/restaurants/top', getHeaders())
+    return apiHelper.get('/restaurants/top')
   }
 }
