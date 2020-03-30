@@ -110,10 +110,22 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
-    const hasToken = localStorage.getItem('token')
-    if (!hasToken) return next()
+    const localToken = localStorage.getItem('token')
+    const storedToken = store.state.token
+    let isAuthenticated = store.state.isAuthenticated
 
-    await store.dispatch('fetchCurrentUser')
+    // Vuex 未存到 token && 與 localToken 不一致時
+    if (storedToken && (storedToken !== localToken)) {
+      isAuthenticated = await store.dispatch('fetchCurrentUser')
+    }
+
+    const pathsWithoutAuth = ['/signup']
+    if (pathsWithoutAuth.includes(to.path)) return next()
+
+    // 判斷 to 是否為 signin，避免無限 loop
+    if (!isAuthenticated && to.path !== '/signin' ) return next('/signin')
+    if (isAuthenticated && to.path === '/signin') return next('/restaurants')
+
     next()
 
   } catch(err) {
