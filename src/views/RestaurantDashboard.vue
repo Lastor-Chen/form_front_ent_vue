@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div>
     <div class="card">
       <div class="card-body">
         <h2 class="card-title mb-0">{{restaurant.name}}</h2>

@@ -1,7 +1,5 @@
 <template>
-  <div class="container py-5">
-    <NavTabs/>
-
+  <div>
     <h1 class="mt-5">最新動態</h1>
     <hr>
     <div class="row">
@@ -18,7 +16,6 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
 import NewestRestaurants from '../components/NewestRestaurants.vue'
 import NewestComments from '../components/NewestComments.vue'
 import restaurantsAPI from '../apis/restaurants.js'
@@ -32,7 +29,6 @@ export default {
     }
   },
   components: {
-    NavTabs,
     NewestRestaurants,
     NewestComments
   },

@@ -1,6 +1,5 @@
 <template>
-  <div class="container py-5">
-    <NavTabs />
+  <div>
     <h1 class="mt-5">人氣餐廳</h1>
     <hr>
     <RestaurantTopCard
@@ -12,7 +11,6 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
 import RestaurantTopCard from '../components/RestaurantTopCard.vue'
 import restaurantsAPI from '../apis/restaurants.js'
 import { Toast } from '../utils/helpers.js'
@@ -24,7 +22,6 @@ export default {
     }
   },
   components: {
-    NavTabs,
     RestaurantTopCard
   },
   created () {

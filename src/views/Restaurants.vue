@@ -1,16 +1,17 @@
 <template>
-  <div class="container py-5">
-    <NavTabs/>
+  <div>
     <!-- Pills -->
     <RestaurantsNavPills :categories="categories" />
+
+    <!-- Card -->
     <div class="row">
-      <!-- Card -->
       <RestaurantsCard 
         v-for="restaurant in restaurants"
         :key="restaurant.id"
         :restaurant="restaurant"
       />
     </div>
+
     <!-- Pagination -->
     <RestaurantsPagination
       :category-id="categoryId"
@@ -21,7 +22,6 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
 import RestaurantsCard from '../components/RestaurantCard.vue'
 import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
 import RestaurantsPagination from '../components/RestaurantsPagination.vue'
@@ -29,6 +29,11 @@ import restaurantsAPI from '../apis/restaurants'
 import { Toast } from '../utils/helpers'
 
 export default {
+  components: {
+    RestaurantsCard,
+    RestaurantsNavPills,
+    RestaurantsPagination
+  },
   data () {
     return {
       restaurants: [],
@@ -37,12 +42,6 @@ export default {
       currentPage: 1,
       totalPage: 0,
     }
-  },
-  components: {
-    NavTabs,
-    RestaurantsCard,
-    RestaurantsNavPills,
-    RestaurantsPagination
   },
   created () {
     const { page, categoryId } = this.$route.query
@@ -73,6 +72,4 @@ export default {
     }
   }
 }
-
 </script>
-

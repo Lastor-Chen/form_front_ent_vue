@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div>
     <!-- 餐廳資訊頁 RestaurantDetail -->
     <RestaurantDetail :initial-restaurant="restaurant"/>
     <hr>
