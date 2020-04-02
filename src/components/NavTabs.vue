@@ -4,7 +4,10 @@
       v-for="tab in tabs"
       :key="tab.id"
     >
-      <router-link :to="tab.path" class="nav-link">
+      <router-link class="nav-link"
+          :to="tab.path"
+          :active-class="($route.name === 'restaurants') ? 'active' : ''"
+        >
         {{tab.title}}
       </router-link>
     </li>

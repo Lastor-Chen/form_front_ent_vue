@@ -3,7 +3,7 @@
     <li class="nav-item">
       <router-link
         class="nav-link"
-        :to="{ path: 'restaurants' }"
+        :to="{ path: '/restaurants' }"
       >
         全部
       </router-link>
@@ -16,7 +16,7 @@
     >
       <router-link
         class="nav-link"
-        :to="{ path: 'restaurants', query: { categoryId: category.id } }"
+        :to="{ path: '/restaurants', query: { categoryId: category.id } }"
       >
         {{ category.name }}
       </router-link>
