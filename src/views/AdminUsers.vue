@@ -1,7 +1,5 @@
 <template>
-  <div class="container py-5">
-    <AdminNav/>
-
+  <div>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -104,9 +102,6 @@ const dummyUser = {
 }
 
 export default {
-  components: {
-    AdminNav
-  },
   data() {
     return {
       currentUser: dummyUser.currentUser,

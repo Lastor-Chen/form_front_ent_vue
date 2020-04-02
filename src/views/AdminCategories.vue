@@ -1,7 +1,5 @@
 <template>
-  <div class="container py-5">
-    <AdminNav/>
-
+  <div>
     <form class="my-4" @submit.prevent="createCategory">
       <div class="form-row">
         <div class="col-auto">
@@ -80,14 +78,10 @@
 </template>
 
 <script>
-import AdminNav from '../components/AdminNav.vue'
 import adminAPI from '../apis/admin.js'
 import { Toast } from '../utils/helpers.js'
 
 export default {
-  components: {
-    AdminNav
-  },
   data() {
     return {
       categories: [],

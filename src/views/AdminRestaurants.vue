@@ -1,7 +1,5 @@
 <template>
-  <div class="container py-5">
-    <!-- AdminNav -->
-    <AdminNav/>
+  <div>
     <router-link class="btn btn-primary mb-4"
       to="/admin/restaurants/new"
     >
@@ -13,12 +11,10 @@
 </template>
 
 <script>
-import AdminNav from '../components/AdminNav.vue'
 import AdminRestaurantsTable from '../components/AdminRestaurantsTable.vue'
 
 export default {
   components: {
-    AdminNav,
     AdminRestaurantsTable
   }
 }
