@@ -55,8 +55,8 @@ router.beforeEach(async (to, from, next) => {
     const storedToken = store.state.token
     let isAuthenticated = store.state.isAuthenticated
 
-    // Vuex 未持有 token && 與 localToken 不一致時，才向 Server 核對
-    if (storedToken && (storedToken !== localToken)) {
+    // 未持有 token && 與 storedToken 不一致時，向 Server 核對
+    if (localToken && (storedToken !== localToken)) {
       isAuthenticated = await store.dispatch('fetchCurrentUser')
     }
 
