@@ -1,11 +1,9 @@
 <template>
-  <div class="container py-5">
-    <AdminRestaurantForm
-      :initial-restaurant="restaurant"
-      :is-processing="isProcessing"
-      @after-submit="handleAfterSubmit"
-    />
-  </div>
+  <AdminRestaurantForm
+    :initial-restaurant="restaurant"
+    :is-processing="isProcessing"
+    @after-submit="handleAfterSubmit"
+  />
 </template>
 
 <script>

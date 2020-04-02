@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div>
     <div class="row">
       <div class="col-md-12">
         <h1>{{restaurant.name}}</h1>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <hr>
-    <a href="#" @click="$router.back()"></a>
+    <button class="btn btn-link" @click="$router.back()">回上頁</button>
   </div>
 </template>
 
