@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title mb-0">{{restaurant.name}}</h2>
-        <h6 class="card-subtitle mb-2 py-3 border-bottom">[{{restaurant.categoryName}}]</h6>
-        <ul>
-          <li>評論數： {{restaurant.commentCounts}}</li>
-          <li>瀏覽次數：{{restaurant.viewCounts}}</li>
-          <li>收藏數：{{restaurant.favoriteCounts}}</li>
-        </ul>
-        <router-link
-          :to="`/restaurants/${restaurant.id}`"
-          class="card-link"
-        >
-          回上一頁
-        </router-link>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title mb-0">{{restaurant.name}}</h2>
+      <h6 class="card-subtitle mb-2 py-3 border-bottom">[{{restaurant.categoryName}}]</h6>
+      <ul>
+        <li>評論數： {{restaurant.commentCounts}}</li>
+        <li>瀏覽次數：{{restaurant.viewCounts}}</li>
+        <li>收藏數：{{restaurant.favoriteCounts}}</li>
+      </ul>
+      <router-link
+        :to="`/restaurants/${restaurant.id}`"
+        class="card-link"
+      >
+        回上一頁
+      </router-link>
     </div>
   </div>
 </template>

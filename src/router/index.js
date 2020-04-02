@@ -20,7 +20,7 @@ const routes = [
     name: 'sign-up',
     component: () => import('../views/SignUp.vue')
   },
-  require('./restaurants.js').default,
+  ...require('./restaurants.js').default,
   {
     path: '/users/top',
     name: 'users-top',
