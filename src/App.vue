@@ -1,7 +1,7 @@
 <template>
   <div id="restaurant-forum">
     <Navbar/>
-    <main role="main" class="mt-5 bg-white">
+    <main role="main" class="bg-white">
       <router-view/>
     </main>
   </div>
@@ -19,3 +19,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+main {
+  margin-top: 65px;
+}
+</style>
