@@ -47,13 +47,6 @@
   </div>
 </template>
 
-<style scoped>
-  .top-card {
-    max-width: 540px;
-    margin: auto;
-  }
-</style>
-
 <script>
 import usersAPI from '../apis/users.js'
 import { Toast } from '../utils/helpers.js'
@@ -108,3 +101,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.top-card {
+  max-width: 540px;
+  margin: auto;
+}
+</style>

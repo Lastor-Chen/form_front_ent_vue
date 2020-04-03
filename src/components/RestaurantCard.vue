@@ -70,13 +70,6 @@
   </div>
 </template>
 
-<style scoped>
-.link-img {
-  width: 100%;
-  height: 180px
-}
-</style>
-
 <script>
 import usersAPI from '../apis/users.js'
 import { Toast } from '../utils/helpers.js'
@@ -178,7 +171,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.link-img {
+  width: 100%;
+  height: 180px
+}
+
 .badge.badge-secondary {
   padding: 0;
   margin: 8px 0;
@@ -186,14 +184,16 @@ export default {
   background-color: transparent;
 }
 
-.btn,
-.btn-border.btn:hover {
-  margin: 7px 14px 7px 0;
+.btn {
+  &, &.btn-border:hover {
+    margin: 7px 14px 7px 0;
+  }
 }
 
 .card {
   margin-bottom: 2rem !important;
 }
+
 .card-img-top {
   background-color: #EFEFEF;
 }

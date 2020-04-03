@@ -201,11 +201,21 @@ export default {
 }
 </script>
 
-<style scoped>
-.col-lg-8 p,
-.contact-info-wrap li,
-.contact-info-wrap strong {
+<style lang="scss" scoped>
+%font {
   font-family: serif;
-  font-size: 17px;
+  font-size: 17px;  
+}
+
+.col-lg-8 {
+  p {
+    @extend %font;
+  }
+}
+
+.contact-info-wrap {
+  li, strong {
+    @extend %font;
+  }
 }
 </style>

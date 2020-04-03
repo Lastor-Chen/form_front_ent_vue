@@ -8,31 +8,27 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .spinner {
   padding-top: 100px;
-}
-
-.bouncing-loader {
-  display: flex;
-  justify-content: center;
-}
-
-.bouncing-loader > div {
-  width: 1rem;
-  height: 1rem;
-  margin: 3rem 0.2rem;
-  background: #bd2333;
-  border-radius: 50%;
-  animation: bouncing-loader 0.6s infinite alternate;
-}
-
-.bouncing-loader > div:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.bouncing-loader > div:nth-child(3) {
-  animation-delay: 0.4s;
+  .bouncing-loader {
+    display: flex;
+    justify-content: center;
+    div {
+      width: 1rem;
+      height: 1rem;
+      margin: 3rem 0.2rem;
+      background: #bd2333;
+      border-radius: 50%;
+      animation: bouncing-loader 0.6s infinite alternate;
+    }
+    div:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    div:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
 }
 
 @keyframes bouncing-loader {
