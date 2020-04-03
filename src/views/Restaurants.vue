@@ -14,11 +14,15 @@
         />
       </div>
       <!-- Pagination -->
-      <RestaurantsPagination
+      <RestaurantsPagination v-if="restaurants.length"
         :category-id="categoryId"
         :current-page="currentPage"
         :total-page="totalPage"
       />
+
+      <div v-if="!restaurants.length">
+        沒有符合條件的餐廳。
+      </div>
     </template>
   </div>
 </template>
