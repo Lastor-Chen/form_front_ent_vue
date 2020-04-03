@@ -1,49 +1,56 @@
 <template>
   <div>
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Email</th>
-          <th scope="col">Role</th>
-          <th scope="col" width="180">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(user, index) in users"
-          :key="user.id"
-        >
-          <th>{{user.id}}</th>
-          <td>{{user.email}}</td>
-          <td>
-            {{user.isAdmin ? 'admin' : 'user'}}
-          </td>
-          <td>
-            <button class="btn btn-link"
-                v-if="currentUser.id !== user.id"
-                @click="toggleAdmin(index)"
-                :disabled="isProcessing"
-              >
-              {{user.isAdmin ? 'set as user' : 'set as admin'}}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col" width="180">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, index) in users"
+            :key="user.id"
+          >
+            <th>{{user.id}}</th>
+            <td>{{user.email}}</td>
+            <td>
+              {{user.isAdmin ? 'admin' : 'user'}}
+            </td>
+            <td>
+              <button class="btn btn-link"
+                  v-if="currentUser.id !== user.id"
+                  @click="toggleAdmin(index)"
+                  :disabled="isProcessing"
+                >
+                {{user.isAdmin ? 'set as user' : 'set as admin'}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
   </div>
 </template>
 
 <script>
-import AdminNav from '../components/AdminNav.vue'
+import Spinner from '../components/Spinner.vue'
 import adminAPI from '../apis/admin.js'
 import { Toast } from '../utils/helpers.js'
 import { mapState } from 'vuex'
 
 export default {
+  components: {
+    Spinner
+  },
   data() {
     return {
       users: [],
-      isProcessing: false
+      isProcessing: false,
+      isLoading: true
     }
   },
   computed: {
@@ -58,7 +65,9 @@ export default {
         const { data } = await adminAPI.users.get()
 
         this.users = data.users
+        this.isLoading = false
       } catch (err) {
+        this.isLoading = false
         Toast.fire({
           icon: 'error',
           title: '無法取得用戶資料，請稍後再試'

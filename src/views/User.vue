@@ -1,26 +1,29 @@
 <template>
   <main role="main">
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <UserProfileCard 
-          :user="user"
-          :is-current-user="currentUser.id === user.id"
-          :initial-is-followed="isFollowed"
-        />
-        <div class="row">
-          <div class="col-md-4">
-            <UserFollowingsCard :followings="followings" />
-            <br>
-            <UserFollowersCard :followers="followers" />
-          </div>
-          <div class="col-md-8">
-            <UserCommentsCard :comments="comments"/>
-            <br>
-            <UserFavoritedRestaurantsCard :favRestaurants="favoritedRestaurants" />
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <UserProfileCard 
+            :user="user"
+            :is-current-user="currentUser.id === user.id"
+            :initial-is-followed="isFollowed"
+          />
+          <div class="row">
+            <div class="col-md-4">
+              <UserFollowingsCard :followings="followings" />
+              <br>
+              <UserFollowersCard :followers="followers" />
+            </div>
+            <div class="col-md-8">
+              <UserCommentsCard :comments="comments"/>
+              <br>
+              <UserFavoritedRestaurantsCard :favRestaurants="favoritedRestaurants" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </main>
 </template>
 
@@ -30,6 +33,7 @@ import UserFollowingsCard from '../components/UserFollowingsCard.vue'
 import UserFollowersCard from '../components/UserFollowersCard.vue'
 import UserCommentsCard from '../components/UserCommentsCard.vue'
 import UserFavoritedRestaurantsCard from '../components/UserFavoritedRestaurantsCard.vue'
+import Spinner from '../components/Spinner.vue'
 import { mapState } from 'vuex'
 import usersAPI from '../apis/users.js'
 import { Toast } from '../utils/helpers.js'
@@ -40,7 +44,8 @@ export default {
     UserFollowingsCard,
     UserFollowersCard,
     UserCommentsCard,
-    UserFavoritedRestaurantsCard
+    UserFavoritedRestaurantsCard,
+    Spinner
   },
   data() {
     return {
@@ -50,6 +55,7 @@ export default {
       favoritedRestaurants: [],
       followers: [],
       followings: [],
+      isLoading: true
     }
   },
   computed: {
@@ -60,6 +66,7 @@ export default {
     this.fetchUser(userId)
   },
   beforeRouteUpdate(to, from, next) {
+    this.isLoading = true
     const userId = to.params.id
     this.fetchUser(userId)
     next()
@@ -81,7 +88,7 @@ export default {
           followingsCount: profile.Followings.length
         }
 
-        // 去 restaurant.id 重複，去 restaurant 為空
+        // 去除重複 restaurant.id，去除空的 restaurant
         const commentSet = new Set()
         this.comments = profile.Comments.filter(
           comment => comment.Restaurant &&
@@ -93,8 +100,10 @@ export default {
         this.followers = profile.Followers
         this.followings = profile.Followings
         this.isFollowed = data.isFollowed
+        this.isLoading = false
 
       } catch (err) {
+        this.isLoading = false
         Toast.fire({
           icon: 'error',
           title: '無法取得使用者資料，請稍後再試'

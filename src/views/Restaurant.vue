@@ -1,19 +1,22 @@
 <template>
   <div>
-    <!-- 餐廳資訊頁 RestaurantDetail -->
-    <RestaurantDetail :initial-restaurant="restaurant"/>
-    <hr>
-    <!-- 餐廳評論 RestaurantComments -->
-    <RestaurantComments 
-      :restaurant-comments="restaurantComments"
-      :currentUser="currentUser"
-      @after-delete-comment="afterDeleteComment"
-    />
-    <!-- 新增評論 CreateComment -->
-    <CreateComment
-      :restaurant-id="restaurant.id"
-      @after-create-comment="afterCreateComment"
-    />
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <!-- 餐廳資訊頁 RestaurantDetail -->
+      <RestaurantDetail :initial-restaurant="restaurant"/>
+      <hr>
+      <!-- 餐廳評論 RestaurantComments -->
+      <RestaurantComments 
+        :restaurant-comments="restaurantComments"
+        :currentUser="currentUser"
+        @after-delete-comment="afterDeleteComment"
+      />
+      <!-- 新增評論 CreateComment -->
+      <CreateComment
+        :restaurant-id="restaurant.id"
+        @after-create-comment="afterCreateComment"
+      />
+    </template>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
 import RestaurantDetail from '../components/RestaurantDetail.vue'
 import RestaurantComments from '../components/RestaurantComments.vue'
 import CreateComment from '../components/CreateComment.vue'
+import Spinner from '../components/Spinner.vue'
 import restaurantsAPI from '../apis/restaurants.js'
 import { mapState } from 'vuex'
 import { Toast } from '../utils/helpers'
@@ -40,7 +44,8 @@ export default {
         isFavorited: false,
         isLiked: false
       },
-      restaurantComments: []
+      restaurantComments: [],
+      isLoading: true
     }
   },
   computed: {
@@ -49,13 +54,15 @@ export default {
   components: {
     RestaurantDetail,
     RestaurantComments,
-    CreateComment
+    CreateComment,
+    Spinner
   },
   created () {
     const restaurantId = this.$route.params.id
     this.fetchRestaurant(restaurantId)
   },
   beforeRouteUpdate(to, from, next) {
+    this.isLoading = true
     const restaurantId = to.params.id
     this.fetchRestaurant(restaurantId)
     next()
@@ -79,7 +86,9 @@ export default {
         }
 
         this.restaurantComments = data.restaurant.Comments
+        this.isLoading = false
       } catch (err) {
+        this.isLoading = false
         Toast.fire({
           icon: 'error',
           title: '無法取得餐廳資料，請稍後再試'

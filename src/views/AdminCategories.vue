@@ -1,92 +1,99 @@
 <template>
   <div>
-    <form class="my-4" @submit.prevent="createCategory">
-      <div class="form-row">
-        <div class="col-auto">
-          <input type="text"
-            class="form-control"
-            v-model="newCategory"
-            placeholder="New category"
-          >
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-primary">新增</button>
-        </div>
-      </div>
-    </form>
-
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col" width="60">#</th>
-          <th scope="col">Category Name</th>
-          <th scope="col" width="210">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(cate, index) in categories"
-            :key="cate.id"
-          >
-          <th scope="row">{{cate.id}}</th>
-          <td class="position-relative">
-            <div class="category-name"
-                v-show="!cate.isEditing"
-              >
-              {{cate.name}}
-            </div>
-
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <form class="my-4" @submit.prevent="createCategory">
+        <div class="form-row">
+          <div class="col-auto">
             <input type="text"
               class="form-control"
-              v-show="cate.isEditing"
-              v-model="cate.name"
-              @keyup.enter="updateCategory(index)"
-              @keyup.esc="handleCancel(index)"
+              v-model="newCategory"
+              placeholder="New category"
             >
-            <span class="cancel"
-                v-show="cate.isEditing"
-                @click="handleCancel(index)"
-              >
-              ✕
-            </span>
-          </td>
-          <td class="d-flex justify-content-between">
-            <button class="btn btn-link mr-2"
-              v-show="!cate.isEditing"
-              @click="toggleIsEditing(index)"
-              >
-              Edit
-            </button>
-            <button class="btn btn-link mr-2"
-              v-show="cate.isEditing"
-              :disabled="isProcessing"
-              @click="updateCategory(index)"
-              >
-              Save
-            </button>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary">新增</button>
+          </div>
+        </div>
+      </form>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col" width="60">#</th>
+            <th scope="col">Category Name</th>
+            <th scope="col" width="210">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(cate, index) in categories"
+              :key="cate.id"
+            >
+            <th scope="row">{{cate.id}}</th>
+            <td class="position-relative">
+              <div class="category-name"
+                  v-show="!cate.isEditing"
+                >
+                {{cate.name}}
+              </div>
 
-            <button class="btn btn-link mr-2"
-                @click="deleteCategory(index)"
-                :disabled="isProcessing"
+              <input type="text"
+                class="form-control"
+                v-show="cate.isEditing"
+                v-model="cate.name"
+                @keyup.enter="updateCategory(index)"
+                @keyup.esc="handleCancel(index)"
               >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <span class="cancel"
+                  v-show="cate.isEditing"
+                  @click="handleCancel(index)"
+                >
+                ✕
+              </span>
+            </td>
+            <td class="d-flex justify-content-between">
+              <button class="btn btn-link mr-2"
+                v-show="!cate.isEditing"
+                @click="toggleIsEditing(index)"
+                >
+                Edit
+              </button>
+              <button class="btn btn-link mr-2"
+                v-show="cate.isEditing"
+                :disabled="isProcessing"
+                @click="updateCategory(index)"
+                >
+                Save
+              </button>
+
+              <button class="btn btn-link mr-2"
+                  @click="deleteCategory(index)"
+                  :disabled="isProcessing"
+                >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
   </div>
 </template>
 
 <script>
+import Spinner from '../components/Spinner.vue'
 import adminAPI from '../apis/admin.js'
 import { Toast } from '../utils/helpers.js'
 
 export default {
+  components: {
+    Spinner
+  },
   data() {
     return {
       categories: [],
       newCategory: '',
-      isProcessing: false
+      isProcessing: false,
+      isLoading: true
     }
   },
   created() {
@@ -102,8 +109,10 @@ export default {
           name: cate.name,
           isEditing: false
         }))
+        this.isLoading = false
 
       } catch(err) {
+        this.isLoading = false
         Toast.fire({
           icon: 'error',
           title: '無法取得餐廳分類，請稍後再試'

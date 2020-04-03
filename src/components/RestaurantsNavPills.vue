@@ -1,23 +1,21 @@
 <template>
   <ul class="nav nav-pills mb-4">
     <li class="nav-item">
-      <router-link
-        class="nav-link"
-        :to="{ path: '/restaurants' }"
-      >
+      <router-link class="nav-link"
+          v-show="categories.length"
+          :to="{ path: '/restaurants' }"
+        >
         全部
       </router-link>
     </li>
 
-    <li
-      v-for="category in categories"
-      :key="category.id"
-      class="nav-item"
-    >
-      <router-link
-        class="nav-link"
-        :to="{ path: '/restaurants', query: { categoryId: category.id } }"
+    <li class="nav-item"
+        v-for="category in categories"
+        :key="category.id"
       >
+      <router-link class="nav-link"
+          :to="{ path: '/restaurants', query: { categoryId: category.id } }"
+        >
         {{ category.name }}
       </router-link>
     </li>
