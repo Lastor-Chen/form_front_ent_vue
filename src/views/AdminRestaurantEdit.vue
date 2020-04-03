@@ -68,8 +68,9 @@ export default {
       try {
         this.isProcessing = true
 
-        const { id } = this.restaurant.id
-        await adminAPI.restaurants.update(id, formData)
+        const { id } = this.restaurant
+        const { data } = await adminAPI.restaurants.update(id, formData)
+        if (data.status !== 'success') throw { msg: data.message }
 
         this.$router.push('/admin/restaurants')
 
@@ -77,7 +78,7 @@ export default {
         this.isProcessing = false
         Toast.fire({
           icon: 'error',
-          title: '無法編輯餐廳，請稍後再試'
+          title: err.msg || '無法編輯餐廳，請稍後再試'
         })
       }
     }
