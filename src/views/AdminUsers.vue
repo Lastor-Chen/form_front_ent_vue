@@ -20,8 +20,9 @@
           </td>
           <td>
             <button class="btn btn-link"
-              v-if="currentUser.id !== user.id"
-              @click="toggleAdmin(index)"
+                v-if="currentUser.id !== user.id"
+                @click="toggleAdmin(index)"
+                :disabled="isProcessing"
               >
               {{user.isAdmin ? 'set as user' : 'set as admin'}}
             </button>
@@ -34,90 +35,60 @@
 
 <script>
 import AdminNav from '../components/AdminNav.vue'
-
-const dummyData = {
-  "users": [
-      {
-          "id": 1,
-          "name": "root",
-          "email": "root@example.com",
-          "password": "$2a$10$J9pLpJJ1Tzfe/ZcjdYwXdumyh.3F5E.w/HTxRcH./cl3azhgekgQe",
-          "isAdmin": true,
-          "image": null,
-          "createdAt": "2020-02-28T14:38:32.000Z",
-          "updatedAt": "2020-02-28T14:38:32.000Z"
-      },
-      {
-          "id": 2,
-          "name": "user1",
-          "email": "user1@example.com",
-          "password": "$2a$10$NyaAtgRuHx3i7hHlnb5IXOC4Uk4.q1J1iQs3op.ymdCEh7.tOwcH2",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2020-02-28T14:38:32.000Z",
-          "updatedAt": "2020-02-28T14:38:32.000Z"
-      },
-      {
-          "id": 3,
-          "name": "user2",
-          "email": "user2@example.com",
-          "password": "$2a$10$VHKmtPqbcUzK46qxLllqj.w506U2N2TObMmnpdlNG2CLZPa1xzuTi",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2020-02-28T14:38:32.000Z",
-          "updatedAt": "2020-02-28T14:38:32.000Z"
-      },
-      {
-          "id": 62,
-          "name": "AC",
-          "email": "ac@ac.com",
-          "password": "$2a$10$yB01LxQAujWjRQ0WaprYV.t5SDx6kool5Cmrt0F7TRSXGRk.W8z1m",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2020-02-29T15:41:09.000Z",
-          "updatedAt": "2020-02-29T15:41:09.000Z"
-      },
-      {
-          "id": 72,
-          "name": "mohammad akhbarati",
-          "email": "makhbarati@gmail.com",
-          "password": "$2a$10$ljaWKqtQwgLA5BdTEhBTHeJK/Ku4ow3IHM4S5OJYmr7.anBAIl7NW",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2020-02-29T23:24:32.000Z",
-          "updatedAt": "2020-02-29T23:24:32.000Z"
-      }
-  ]
-}
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: 'administrator',
-    email: 'root@example.com',
-    image: 'http://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true
-}
+import adminAPI from '../apis/admin.js'
+import { Toast } from '../utils/helpers.js'
+import { mapState } from 'vuex'
 
 export default {
   data() {
     return {
-      currentUser: dummyUser.currentUser,
-      users: []
+      users: [],
+      isProcessing: false
     }
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   created() {
     this.fetchUsers()
   },
   methods: {
-    fetchUsers() {
-      this.users = dummyData.users
+    async fetchUsers() {
+      try {
+        const { data } = await adminAPI.users.get()
+
+        this.users = data.users
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得用戶資料，請稍後再試'
+        })
+      }
     },
-    toggleAdmin(index) {
-      const user = this.users[index]
-      user.isAdmin = !user.isAdmin
+    async toggleAdmin(index) {
+      try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+        
+        const user = this.users[index]
+
+        // API request (axios can't pass Boolean)
+        const newIsAdmin = (!user.isAdmin).toString()
+        const { data } = await adminAPI.users.update(user.id, newIsAdmin)
+        if (data.status !== 'success') throw { msg: data.message }
+
+        // update Vue data
+        user.isAdmin = !user.isAdmin
+        Toast.fire('成功修改用戶資料', '', 'success')
+        this.isProcessing = false
+
+      } catch (err) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: err.msg || '無法修改用戶資料，請稍後再試'
+        })
+      }
     }
   }
 }
