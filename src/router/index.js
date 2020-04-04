@@ -4,46 +4,28 @@ import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'root',
-    redirect: '/signin'
-  },
-  {
-    path: '/signin',
-    name: 'sign-in',
-    component: () => import('../views/SignIn.vue')
-  },
-  {
-    path: '/signup',
-    name: 'sign-up',
-    component: () => import('../views/SignUp.vue')
-  },
-  ...require('./restaurants.js').default,
-  {
-    path: '/users/:id',
-    name: 'user',
-    component: () => import('../views/User.vue')
-  },
-  {
-    path: '/users/:id/edit',
-    name: 'user-edit',
-    component: () => import('../views/UserEdit.vue')
-  },
-  ...require('./admin.js').default,
-  {
-    path: '*',
-    name: 'not-found',
-    component: () => import('../views/NotFound.vue')
-  },
-]
-
+// Router config
 const router = new VueRouter({
   linkExactActiveClass: 'active',
-  routes
+  routes: [
+    {
+      path: '/',
+      name: 'root',
+      redirect: '/signin'
+    },
+    ...require('./sign.js').default,
+    ...require('./restaurants.js').default,
+    ...require('./users.js').default,
+    ...require('./admin.js').default,
+    {
+      path: '*',
+      name: 'not-found',
+      component: () => import('../views/NotFound.vue')
+    },
+  ]
 })
 
+// Global middleware for authenticate
 router.beforeEach(async (to, from, next) => {
   try {
     const localToken = localStorage.getItem('token')
