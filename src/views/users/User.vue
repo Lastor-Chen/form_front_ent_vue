@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div>
     <Spinner v-if="isLoading" />
     <template v-else>
       <UserProfileCard 
@@ -24,15 +24,15 @@
 </template>
 
 <script>
-import UserProfileCard from '../components/UserProfileCard.vue'
-import UserFollowingsCard from '../components/UserFollowingsCard.vue'
-import UserFollowersCard from '../components/UserFollowersCard.vue'
-import UserCommentsCard from '../components/UserCommentsCard.vue'
-import UserFavoritedRestaurantsCard from '../components/UserFavoritedRestaurantsCard.vue'
-import Spinner from '../components/Spinner.vue'
+import UserProfileCard from '@/components/UserProfileCard.vue'
+import UserFollowingsCard from '@/components/UserFollowingsCard.vue'
+import UserFollowersCard from '@/components/UserFollowersCard.vue'
+import UserCommentsCard from '@/components/UserCommentsCard.vue'
+import UserFavoritedRestaurantsCard from '@/components/UserFavoritedRestaurantsCard.vue'
+import Spinner from '@/components/Spinner.vue'
 import { mapState } from 'vuex'
-import usersAPI from '../apis/users.js'
-import { Toast } from '../utils/helpers.js'
+import usersAPI from '@/apis/users.js'
+import { Toast } from '@/utils/helpers.js'
 
 export default {
   components: {

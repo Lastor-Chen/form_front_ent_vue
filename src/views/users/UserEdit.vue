@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="name">Name</label>
