@@ -32,7 +32,12 @@
           >
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit"
+            class="btn btn-primary"
+            :disabled="isProcessing"
+          >
+          Submit
+        </button>
         <button type="button"
             class="btn btn-primary ml-3"
             @click="$router.back()"
@@ -57,7 +62,8 @@ export default {
   data() {
     return {
       user: {},
-      isLoading: true
+      isLoading: true,
+      isProcessing: false
     }
   },
   computed: {
@@ -69,7 +75,7 @@ export default {
     if (this.currentUser.id !== (+id)) {
       return this.$router.push({
         name: 'user',
-        params: { id, unAuth: true }
+        params: { id, flash: { icon: 'warning', msg: '沒有操作權限' } }
       })
     }
   
@@ -83,7 +89,7 @@ export default {
     if (this.currentUser.id !== (+id)) {
       return this.$router.push({
         name: 'user',
-        params: { id, unAuth: true }
+        params: { id, flash: { icon: 'warning', msg: '沒有操作權限' } }
       })
     }
 
@@ -120,6 +126,9 @@ export default {
     },
     async handleSubmit(e) {
       try {
+        if (this.isProcessing) return false
+        this.isProcessing = true
+
         const form = e.target
         const formData = new FormData(form)
         const userId = this.user.id
@@ -133,9 +142,15 @@ export default {
           name: this.user.name,
           image: this.user.image
         })
-        Toast.fire('成功更新使用者資料', '', 'success')
+        this.isProcessing = false
+
+        this.$router.push({
+          name: 'user', 
+          params: { id: userId, flash: { icon: 'success', msg: '成功更新使用者資料' } } }
+        )
 
       } catch (err) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: err.msg || '無法更新使用者資料，請稍後再試'

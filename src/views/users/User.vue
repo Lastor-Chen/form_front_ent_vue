@@ -58,9 +58,9 @@ export default {
     ...mapState(['currentUser'])
   },
   created() {
-    const { unAuth } = this.$route.params
-    if (unAuth) {
-      Toast.fire('沒有操作權限', '', 'warning')
+    const { flash } = this.$route.params
+    if (flash) {
+      Toast.fire(flash.msg, '', flash.icon)
     }
 
     const userId = this.$route.params.id
