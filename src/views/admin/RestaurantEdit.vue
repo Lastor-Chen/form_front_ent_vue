@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import AdminRestaurantForm from '../components/AdminRestaurantForm.vue'
-import adminAPI from '../apis/admin.js'
-import { Toast } from '../utils/helpers.js'
+import AdminRestaurantForm from '@/components/AdminRestaurantForm.vue'
+import adminAPI from '@/apis/admin.js'
+import { Toast } from '@/utils/helpers.js'
 
 export default {
   components: {

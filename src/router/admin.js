@@ -11,7 +11,7 @@ function authorizeIsAdmin(to, from, next) {
 export default [
   {
     path: '/admin',
-    component: () => import('../views/AdminIndex.vue'),
+    component: () => import('@/views/admin/Index.vue'),
     beforeEnter: authorizeIsAdmin,
     children: [
       {
@@ -23,39 +23,39 @@ export default [
         path: 'restaurants',
         name: 'admin-restaurants',
         components: {
-          default: () => import('../views/AdminRestaurants.vue'),
-          nav: () => import('../components/AdminNav.vue')
+          default: () => import('@/views/admin/Restaurants.vue'),
+          nav: () => import('@/components/AdminNav.vue')
         }
       },
       {
         path: 'restaurants/new',
         name: 'admin-restaurant-new',
-        component: () => import('../views/AdminRestaurantNew.vue')
+        component: () => import('@/views/admin/RestaurantNew.vue')
       },
       {
         path: 'restaurants/:id',
         name: 'admin-restaurant',
-        component: () => import('../views/AdminRestaurant.vue')
+        component: () => import('@/views/admin/Restaurant.vue')
       },
       {
         path: 'restaurants/:id/edit',
         name: 'admin-restaurant-edit',
-        component: () => import('../views/AdminRestaurantEdit.vue')
+        component: () => import('@/views/admin/RestaurantEdit.vue')
       },
       {
         path: 'categories',
         name: 'admin-categories',
         components: {
-          default: () => import('../views/AdminCategories.vue'),
-          nav: () => import('../components/AdminNav.vue')
+          default: () => import('@/views/admin/Categories.vue'),
+          nav: () => import('@/components/AdminNav.vue')
         }
       },
       {
         path: 'users',
         name: 'admin-users',
         components: {
-          default: () => import('../views/AdminUsers.vue'),
-          nav: () => import('../components/AdminNav.vue')
+          default: () => import('@/views/admin/Users.vue'),
+          nav: () => import('@/components/AdminNav.vue')
         }
       },
     ]

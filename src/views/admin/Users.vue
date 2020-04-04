@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import Spinner from '../components/Spinner.vue'
-import adminAPI from '../apis/admin.js'
-import { Toast } from '../utils/helpers.js'
+import Spinner from '@/components/Spinner.vue'
+import adminAPI from '@/apis/admin.js'
+import { Toast } from '@/utils/helpers.js'
 import { mapState } from 'vuex'
 
 export default {
