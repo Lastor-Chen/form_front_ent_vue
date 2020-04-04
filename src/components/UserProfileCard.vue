@@ -15,8 +15,8 @@
           <ul class="list-unstyled list-inline">
             <li><strong>{{user.commentsCount}}</strong> 已評論餐廳</li>
             <li><strong>{{user.favRestaurantsCount}}</strong> 收藏的餐廳</li>
-            <li><strong>{{user.followersCount}}</strong> followings (追蹤者)</li>
-            <li><strong>{{user.followingsCount}}</strong> followers (追隨者)</li>
+            <li><strong>{{user.followingsCount}}</strong> followings (追蹤者)</li>
+            <li><strong>{{user.followersCount}}</strong> followers (追隨者)</li>
           </ul>
           <!-- button group -->
           <router-link class="btn btn-primary"

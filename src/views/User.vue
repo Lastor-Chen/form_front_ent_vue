@@ -1,30 +1,26 @@
 <template>
-  <main role="main">
+  <div class="container py-5">
     <Spinner v-if="isLoading" />
     <template v-else>
-      <div class="album py-5 bg-light">
-        <div class="container">
-          <UserProfileCard 
-            :user="user"
-            :is-current-user="currentUser.id === user.id"
-            :initial-is-followed="isFollowed"
-          />
-          <div class="row">
-            <div class="col-md-4">
-              <UserFollowingsCard :followings="followings" />
-              <br>
-              <UserFollowersCard :followers="followers" />
-            </div>
-            <div class="col-md-8">
-              <UserCommentsCard :comments="comments"/>
-              <br>
-              <UserFavoritedRestaurantsCard :favRestaurants="favoritedRestaurants" />
-            </div>
-          </div>
+      <UserProfileCard 
+        :user="user"
+        :is-current-user="currentUser.id === user.id"
+        :initial-is-followed="isFollowed"
+      />
+      <div class="row">
+        <div class="col-md-4">
+          <UserFollowingsCard :followings="followings" />
+          <br>
+          <UserFollowersCard :followers="followers" />
+        </div>
+        <div class="col-md-8">
+          <UserCommentsCard :comments="comments"/>
+          <br>
+          <UserFavoritedRestaurantsCard :favRestaurants="favoritedRestaurants" />
         </div>
       </div>
     </template>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -77,17 +73,6 @@ export default {
         const { data } = await usersAPI.getOne(userId)
         const profile = data.profile
 
-        this.user = {
-          id: profile.id,
-          image: profile.image,
-          name: profile.name,
-          email: profile.email,
-          commentsCount: profile.Comments.length,
-          favRestaurantsCount: profile.FavoritedRestaurants.length,
-          followersCount: profile.Followers.length,
-          followingsCount: profile.Followings.length
-        }
-
         // 去除重複 restaurant.id，去除空的 restaurant
         const commentSet = new Set()
         this.comments = profile.Comments.filter(
@@ -95,6 +80,18 @@ export default {
             !commentSet.has(comment.Restaurant.id) &&
             commentSet.add(comment.Restaurant.id)
         )
+
+        // update Vue data
+        this.user = {
+          id: profile.id,
+          image: profile.image,
+          name: profile.name,
+          email: profile.email,
+          commentsCount: this.comments.length,
+          favRestaurantsCount: profile.FavoritedRestaurants.length,
+          followersCount: profile.Followers.length,
+          followingsCount: profile.Followings.length
+        }
 
         this.favoritedRestaurants = profile.FavoritedRestaurants
         this.followers = profile.Followers
