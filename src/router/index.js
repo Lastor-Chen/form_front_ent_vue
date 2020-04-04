@@ -22,11 +22,6 @@ const routes = [
   },
   ...require('./restaurants.js').default,
   {
-    path: '/users/top',
-    name: 'users-top',
-    component: () => import('../views/UsersTop.vue')
-  },
-  {
     path: '/users/:id',
     name: 'user',
     component: () => import('../views/User.vue')

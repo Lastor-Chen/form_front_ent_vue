@@ -1,7 +1,5 @@
 <template>
-  <div class="container py-5">
-    <NavTabs />
-    <!-- content -->
+  <div>
     <Spinner v-if="isLoading" />
     <template v-else>
       <h1 class="mt-5">美食達人</h1>
@@ -19,7 +17,6 @@
 </template>
 
 <script>
-import NavTabs from '../components/NavTabs.vue'
 import UserTopCard from '../components/UserTopCard.vue'
 import Spinner from '../components/Spinner.vue'
 import usersAPI from '../apis/users.js'
@@ -33,7 +30,6 @@ export default {
     }
   },
   components: {
-    NavTabs,
     UserTopCard,
     Spinner
   },

@@ -39,7 +39,7 @@ export default {
         {
           id: uuid(),
           title: '美食達人',
-          path: '/users/top'
+          path: '/restaurants/users_top'
         }
       ]
     }

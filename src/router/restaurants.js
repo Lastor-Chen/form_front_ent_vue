@@ -31,6 +31,14 @@ export default [
         }
       },
       {
+        path: 'users_top',
+        name: 'users-top',
+        components: {
+          default: () => import('../views/UsersTop.vue'),
+          nav: NavTabs
+        }
+      },
+      {
         path: ':id',
         name: 'restaurant',
         component: () => import('../views/Restaurant.vue')
