@@ -1,10 +1,10 @@
-import Index from '@/views/restaurants/Index.vue'
+import Main from '@/views/layouts/Main.vue'
 import NavTabs from '@/components/NavTabs.vue'
 
 export default [
   {
     path: '/restaurants',
-    component: Index,
+    component: Main,
     children: [
       {
         path: '',

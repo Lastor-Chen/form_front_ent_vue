@@ -11,7 +11,7 @@ function authorizeIsAdmin(to, from, next) {
 export default [
   {
     path: '/admin',
-    component: () => import('@/views/admin/Index.vue'),
+    component: () => import('@/views/layouts/Main.vue'),
     beforeEnter: authorizeIsAdmin,
     children: [
       {
