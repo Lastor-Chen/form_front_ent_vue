@@ -8,11 +8,6 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   linkExactActiveClass: 'active',
   routes: [
-    {
-      path: '/',
-      name: 'root',
-      redirect: '/signin'
-    },
     ...require('./sign.js').default,
     ...require('./restaurants.js').default,
     ...require('./users.js').default,

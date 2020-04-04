@@ -1,4 +1,5 @@
 import store from '../store/index.js'
+import Main from '@/views/layouts/Main.vue'
 
 // admin checker
 function authorizeIsAdmin(to, from, next) {
@@ -11,7 +12,7 @@ function authorizeIsAdmin(to, from, next) {
 export default [
   {
     path: '/admin',
-    component: () => import('@/views/layouts/Main.vue'),
+    component: Main,
     beforeEnter: authorizeIsAdmin,
     children: [
       {

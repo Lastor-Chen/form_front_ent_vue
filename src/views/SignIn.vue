@@ -1,5 +1,5 @@
 <template>
-   <div class="container py-5">
+  <div>
     <form class="w-100" @submit.prevent="handleSubmit">
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">

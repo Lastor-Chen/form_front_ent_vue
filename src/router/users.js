@@ -1,7 +1,9 @@
+import Main from '@/views/layouts/Main.vue'
+
 export default [
   {
     path: '/users',
-    component: () => import('@/views/layouts/Main.vue'),
+    component: Main,
     children: [
       {
         path: ':id',
