@@ -67,7 +67,10 @@ export default {
     const id = +this.$route.params.id
     // 阻擋非本人進入
     if (this.currentUser.id !== (+id)) {
-      return this.$router.push(`/users/${id}`)
+      return this.$router.push({
+        name: 'user',
+        params: { id, unAuth: true }
+      })
     }
   
     this.fetchUser(id)
@@ -75,8 +78,13 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.isLoading = true
     const id = to.params.id
+
+    // 阻擋非本人進入
     if (this.currentUser.id !== (+id)) {
-      return this.$router.push(`/users/${id}`)
+      return this.$router.push({
+        name: 'user',
+        params: { id, unAuth: true }
+      })
     }
 
     this.fetchUser(id)
