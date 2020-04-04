@@ -10,8 +10,9 @@ export const fromNowFilter = {
 
 export const emptyImageFilter = {
   filters: {
-    emptyImage(src) {
-      return src || 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
+    emptyImage(src, size = '350x220', text = 'No+Image') {
+      // size example '350x220' or '60x60' or '60'
+      return src || `https://via.placeholder.com/${size}/DFDFDF?text=${text}`
     }
   }
 }

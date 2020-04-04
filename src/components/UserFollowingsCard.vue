@@ -10,7 +10,7 @@
         :to="`/users/${user.id}`"
       >
         <img
-          :src="user.image || 'http://via.placeholder.com/60?text=Image'"
+          :src="user.image | emptyImage('60', 'Image')"
           width="60"
           height="60"
           class="avatar"

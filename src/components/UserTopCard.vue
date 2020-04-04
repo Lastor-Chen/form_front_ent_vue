@@ -2,7 +2,7 @@
   <div class="col-3">
     <router-link :to="`/users/${user.id}`">
       <img
-        :src="user.image || 'http://via.placeholder.com/300x300?text=No+Image'"
+        :src="user.image | emptyImage('300')"
         width="140px"
         height="140px"
       >

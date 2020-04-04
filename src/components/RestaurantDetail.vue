@@ -9,7 +9,7 @@
     <div class="col-lg-4">
       <img
         class="img-responsive center-block" 
-        :src="restaurant.image || 'http://via.placeholder.com/320x240?text=No+Image'"
+        :src="restaurant.image | emptyImage('320x240')"
         style="width: 250px;margin-bottom: 25px;"
       >
       <div class="contact-info-wrap">

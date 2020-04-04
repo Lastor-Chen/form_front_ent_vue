@@ -10,7 +10,7 @@
         :to="`/restaurants/${restaurant.id}`"
       >
         <img
-          :src="restaurant.image || 'http://via.placeholder.com/60?text=Image'"
+          :src="restaurant.image | emptyImage('60', 'Image')"
           width="60"
           height="60"
           class="avatar"

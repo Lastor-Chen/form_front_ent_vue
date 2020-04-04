@@ -3,7 +3,7 @@
     <div class="row no-gutters">
       <div class="col-md-4">
         <img
-          :src="user.image || 'http://via.placeholder.com/300?text=Image'"
+          :src="user.image | emptyImage('300')"
           width="300px"
           height="300px"
         >

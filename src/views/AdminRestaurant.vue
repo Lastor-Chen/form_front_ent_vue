@@ -42,12 +42,10 @@
 
 <script>
 import Spinner from '../components/Spinner.vue'
-import { emptyImageFilter } from '../utils/mixins.js'
 import adminAPI from '../apis/admin.js'
 import { Toast } from '../utils/helpers.js'
 
 export default {
-  mixins: [emptyImageFilter],
   components: {
     Spinner
   },
