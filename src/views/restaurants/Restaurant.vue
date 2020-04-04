@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import RestaurantDetail from '../components/RestaurantDetail.vue'
-import RestaurantComments from '../components/RestaurantComments.vue'
-import CreateComment from '../components/CreateComment.vue'
-import Spinner from '../components/Spinner.vue'
-import restaurantsAPI from '../apis/restaurants.js'
+import RestaurantDetail from '@/components/RestaurantDetail.vue'
+import RestaurantComments from '@/components/RestaurantComments.vue'
+import CreateComment from '@/components/CreateComment.vue'
+import Spinner from '@/components/Spinner.vue'
+import restaurantsAPI from '@/apis/restaurants.js'
 import { mapState } from 'vuex'
-import { Toast } from '../utils/helpers'
+import { Toast } from '@/utils/helpers'
 
 export default {
   data () {

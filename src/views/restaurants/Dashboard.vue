@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import Spinner from '../components/Spinner.vue'
-import restaurantsAPI from '../apis/restaurants.js'
-import { Toast } from '../utils/helpers.js'
+import Spinner from '@/components/Spinner.vue'
+import restaurantsAPI from '@/apis/restaurants.js'
+import { Toast } from '@/utils/helpers.js'
 
 export default {
   components: {

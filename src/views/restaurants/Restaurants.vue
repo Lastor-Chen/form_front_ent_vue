@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import RestaurantsCard from '../components/RestaurantCard.vue'
-import RestaurantsNavPills from '../components/RestaurantsNavPills.vue'
-import RestaurantsPagination from '../components/RestaurantsPagination.vue'
-import Spinner from '../components/Spinner.vue'
-import restaurantsAPI from '../apis/restaurants'
-import { Toast } from '../utils/helpers'
+import RestaurantsCard from '@/components/RestaurantCard.vue'
+import RestaurantsNavPills from '@/components/RestaurantsNavPills.vue'
+import RestaurantsPagination from '@/components/RestaurantsPagination.vue'
+import Spinner from '@/components/Spinner.vue'
+import restaurantsAPI from '@/apis/restaurants'
+import { Toast } from '@/utils/helpers'
 
 export default {
   components: {

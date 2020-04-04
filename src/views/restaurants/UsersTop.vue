@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import UserTopCard from '../components/UserTopCard.vue'
-import Spinner from '../components/Spinner.vue'
-import usersAPI from '../apis/users.js'
-import { Toast } from '../utils/helpers.js'
+import UserTopCard from '@/components/UserTopCard.vue'
+import Spinner from '@/components/Spinner.vue'
+import usersAPI from '@/apis/users.js'
+import { Toast } from '@/utils/helpers.js'
 
 export default {
   data () {

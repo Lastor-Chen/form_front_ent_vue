@@ -1,16 +1,16 @@
-import RestaurantsIndex from '../views/RestaurantsIndex.vue'
-import NavTabs from '../components/NavTabs.vue'
+import Index from '@/views/restaurants/Index.vue'
+import NavTabs from '@/components/NavTabs.vue'
 
 export default [
   {
     path: '/restaurants',
-    component: RestaurantsIndex,
+    component: Index,
     children: [
       {
         path: '',
         name: 'restaurants',
         components: {
-          default: () => import('../views/Restaurants.vue'),
+          default: () => import('@/views/restaurants/Restaurants.vue'),
           nav: NavTabs
         }
       },
@@ -18,7 +18,7 @@ export default [
         path: 'feeds',
         name: 'restaurants-feeds',
         components: {
-          default: () => import('../views/RestaurantsFeeds.vue'),
+          default: () => import('@/views/restaurants/Feeds.vue'),
           nav: NavTabs
         }
       },
@@ -26,7 +26,7 @@ export default [
         path: 'top',
         name: 'restaurants-tops',
         components: {
-          default: () => import('../views/RestaurantsTop.vue'),
+          default: () => import('@/views/restaurants/Top.vue'),
           nav: NavTabs
         }
       },
@@ -34,19 +34,19 @@ export default [
         path: 'users_top',
         name: 'users-top',
         components: {
-          default: () => import('../views/UsersTop.vue'),
+          default: () => import('@/views/restaurants/UsersTop.vue'),
           nav: NavTabs
         }
       },
       {
         path: ':id',
         name: 'restaurant',
-        component: () => import('../views/Restaurant.vue')
+        component: () => import('@/views/restaurants/Restaurant.vue')
       },
       {
         path: ':id/dashboard',
         name: 'dashboard',
-        component: () => import('../views/RestaurantDashboard.vue')
+        component: () => import('@/views/restaurants/Dashboard.vue')
       },
     ]
   },
