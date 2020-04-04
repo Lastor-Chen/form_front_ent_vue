@@ -58,10 +58,9 @@ export default {
     ...mapState(['currentUser'])
   },
   created() {
-    const { flash } = this.$route.params
-    if (flash) {
-      Toast.fire(flash.msg, '', flash.icon)
-    }
+    // 如果從 UserEdit 返回
+    const flash = this.$session.flash.get('editResult')
+    if (flash) { Toast.fire(flash.title, '', flash.icon) }
 
     const userId = this.$route.params.id
     this.fetchUser(userId)

@@ -71,32 +71,27 @@ export default {
   },
   created() {
     const id = +this.$route.params.id
-    // 阻擋非本人進入
-    if (this.currentUser.id !== (+id)) {
-      return this.$router.push({
-        name: 'user',
-        params: { id, flash: { icon: 'warning', msg: '沒有操作權限' } }
-      })
-    }
-  
+    this.checkUser(id)  // 阻擋非本人進入
     this.fetchUser(id)
   },
   beforeRouteUpdate(to, from, next) {
     this.isLoading = true
     const id = to.params.id
 
-    // 阻擋非本人進入
-    if (this.currentUser.id !== (+id)) {
-      return this.$router.push({
-        name: 'user',
-        params: { id, flash: { icon: 'warning', msg: '沒有操作權限' } }
-      })
-    }
-
+    this.checkUser(id)  // 阻擋非本人進入
     this.fetchUser(id)
     next()
   },
   methods: {
+    checkUser(userId) {
+      if (this.currentUser.id === (+userId)) return
+
+      this.$session.flash.set('editResult', {
+        icon: 'warning',
+        title: '沒有操作權限'
+      })
+      this.$router.push(`/users/${userId}`)
+    },
     async fetchUser(userId) {
       try {
         const { data } = await usersAPI.getOne(userId)
@@ -144,10 +139,12 @@ export default {
         })
         this.isProcessing = false
 
-        this.$router.push({
-          name: 'user', 
-          params: { id: userId, flash: { icon: 'success', msg: '成功更新使用者資料' } } }
-        )
+        // 跳轉頁面
+        this.$session.flash.set('editResult', {
+          icon: 'success',
+          title: '成功更新使用者資料'
+        })
+        this.$router.push(`/users/${userId}`)
 
       } catch (err) {
         this.isProcessing = false
